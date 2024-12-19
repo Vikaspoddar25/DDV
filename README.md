@@ -165,8 +165,8 @@ sf scanner run --engine="pmd-appexchange" --format=csv --outfile=CodeAnalyzerPmd
 
 # Branching Strategy
 
-- Create your feature branch off of the `development` branch.
+- Create your feature branch off of the `develop` branch.
 - Create a Scratch Org.
 - Perform your changes and test in your Scratch Org
 - Update your feature branch with the head branch before creating the PR to avoid conflicts.
-- Once you are ready, submit a PR against the `development` branch.
+- Once you are ready, submit a PR against the `develop` branch.
