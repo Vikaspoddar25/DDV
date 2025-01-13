@@ -44,5 +44,4 @@ public class DynamicRecordWrapper {
         @AuraEnabled
         public String value;
     }
-    
 }

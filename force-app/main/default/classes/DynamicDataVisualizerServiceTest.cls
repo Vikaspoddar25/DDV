@@ -5,9 +5,9 @@ public class DynamicDataVisualizerServiceTest {
     static void setup() {
         // Create test data
         Account acc1 = new Account(Name = 'Test Account 1');
-        insert acc1;
+        SecureDB.withoutSharing().dbInsert(acc1);
         Account acc2 = new Account(Name = 'Test Account 2');
-        insert acc2;
+        SecureDB.withoutSharing().dbInsert(acc2);
         
     }
     

@@ -72,7 +72,6 @@ public inherited sharing class DynamicDataWrapper {
                 }
             } 
         }
-        
         return 'background:#d3d3d3'; // Bydefault light grey
     }
     

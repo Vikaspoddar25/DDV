@@ -3,6 +3,10 @@
     {
       "path": "force-app",
       "default": true
+    },
+    {
+      "path": "force-app/main/default/classes/libraries",
+      "default": false
     }
   ],
   "name": "ddv",

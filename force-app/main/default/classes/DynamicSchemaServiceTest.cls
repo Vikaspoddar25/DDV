@@ -29,7 +29,7 @@ public class DynamicSchemaServiceTest {
         Test.startTest();
         Map<String, String> lookupNames = DynamicSchemaService.getLookupNames(fieldMap, lookupFields);
         Test.stopTest();
-        
+
         System.assertEquals('Account.Name', lookupNames.get('AccountId'), 'Lookup field should be "Account.Name"');
     }
     

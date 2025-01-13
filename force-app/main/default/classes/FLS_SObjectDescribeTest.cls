@@ -20,7 +20,7 @@ public class FLS_SObjectDescribeTest {
             profileid = p.Id,
             timezonesidkey='America/Los_Angeles'
         );
-        INSERT result;
+        SecureDB.withoutSharing().dbInsert(result);
         return result;
     }
     
