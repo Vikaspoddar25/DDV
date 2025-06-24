@@ -4,7 +4,8 @@ public without sharing class DynamicDataVisualizerController {
         try {
             List<DynamicDataSchema> objects = new List<DynamicDataSchema>();
             
-            for(Schema.SObjectType objTyp : Schema.getGlobalDescribe().Values()){
+            //Schema.getGlobalDescribe().Values()
+            for(Schema.SObjectType objTyp : FLS_SObjectDescribe.getRawGlobalDescribe().Values()){
                 if(objTyp.getDescribe().isAccessible() && objTyp.getDescribe().isUpdateable() && objTyp.getDescribe().isQueryable()){
                     objects.add(new DynamicDataSchema(objTyp.getDescribe().getLabel(),objTyp.getDescribe().getName()));
                 }
@@ -22,7 +23,7 @@ public without sharing class DynamicDataVisualizerController {
             DataWrapper dWrap = new DataWrapper();
             List<DynamicDataSchema> childRelationships = new List<DynamicDataSchema>();
             
-            Schema.DescribeSObjectResult objSchema = Schema.getGlobalDescribe().get(objectName).getDescribe();
+            Schema.DescribeSObjectResult objSchema = FLS_SObjectDescribe.getRawGlobalDescribe().get(objectName).getDescribe();
             
             dWrap = getObjectsSchemaDetails(objSchema);
             
@@ -50,7 +51,7 @@ public without sharing class DynamicDataVisualizerController {
     @AuraEnabled(cacheable=true)
     public static DataWrapper getChildObjectSchema(String objName){
         try {
-            Schema.DescribeSObjectResult objSchema = Schema.getGlobalDescribe().get(objName).getDescribe();
+            Schema.DescribeSObjectResult objSchema = FLS_SObjectDescribe.getRawGlobalDescribe().get(objName).getDescribe();
             
             return getObjectsSchemaDetails(objSchema);
         } catch (Exception e) {
@@ -64,7 +65,7 @@ public without sharing class DynamicDataVisualizerController {
             DataWrapper dWrap = new DataWrapper();
             List<DynamicDataSchema> fields = new List<DynamicDataSchema>();
             
-            Schema.DescribeFieldResult field = Schema.getGlobalDescribe().get(objName).getDescribe().fields.getMap().get(fieldName).getDescribe();
+            Schema.DescribeFieldResult field = FLS_SObjectDescribe.getRawGlobalDescribe().get(objName).getDescribe().fields.getMap().get(fieldName).getDescribe();
             
             List<Schema.PicklistEntry> picklistEntries = field.getPicklistValues();
             
@@ -236,17 +237,9 @@ public without sharing class DynamicDataVisualizerController {
             }
             System.debug(' ## String Query ## ' + queryString);
          
-            
-            //FLS CHECK BEFORE QUERY
-            
-            List<String> lstOfFieldsForCheck = new List<String>(setOfFields);
-            SObjectType sObjTypeForCheck = ((SObject) Type.forName(objectName).newInstance())
-                                  .getSObjectType();
-            FLS_SecurityUtils.checkRead(sObjTypeForCheck, lstOfFieldsForCheck);
-            
 
             // Execute the query and prepare the data
-            List<sObject> records = Database.query(queryString);
+            List<sObject> records = SecureDB.withoutSharing().dbQuery(queryString);
             System.debug(' ## records ## ' + records);
             DynamicDataVisualizerService visualizerService = new DynamicDataVisualizerService(records, wrapperObj, apiNameWithDetailMap, soqlfFields , lookupFieldWithName);
             response.recordDataList = isChild ? visualizerService.prepareChildData() : visualizerService.prepareParentData();

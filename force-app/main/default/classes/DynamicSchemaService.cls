@@ -2,7 +2,7 @@ public inherited sharing class DynamicSchemaService {
     
     public static Map<String,FieldsDataWrapper> getFieldLabelApiNameMap(String objectName) {
         Map<String,FieldsDataWrapper> apiNameWithDetailMap = new Map<String,FieldsDataWrapper>();
-        Map<String, Schema.SObjectField> fieldMap = Schema.getGlobalDescribe().get(objectName).getDescribe().fields.getMap();
+        Map<String, Schema.SObjectField> fieldMap = FLS_SObjectDescribe.getRawGlobalDescribe().get(objectName).getDescribe().fields.getMap();
         List<fieldsDataWrapper> fieldsDataWrapList = new List<fieldsDataWrapper>();
         for (String fieldName : fieldMap.keySet()) {
             fieldsDataWrapper fieldsDataWrpr = new fieldsDataWrapper();
@@ -36,7 +36,7 @@ public inherited sharing class DynamicSchemaService {
         List<String> fieldSetFields = new List<String>();
         
         try {
-            Schema.FieldSet fieldSet = Schema.getGlobalDescribe().get(objectName).getDescribe().fieldSets.getMap().get(fieldSetName);
+            Schema.FieldSet fieldSet = FLS_SObjectDescribe.getRawGlobalDescribe().get(objectName).getDescribe().fieldSets.getMap().get(fieldSetName);
             if (fieldSet != null) {
                 for (Schema.FieldSetMember field : fieldSet.getFields()) {
                     fieldSetFields.add(field.getFieldPath());
@@ -47,7 +47,6 @@ public inherited sharing class DynamicSchemaService {
         } catch (Exception e) {
             System.debug('Error: ' + e.getMessage());
         }
-        
         return fieldSetFields;
     }
     

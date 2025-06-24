@@ -4,6 +4,5 @@ public class DynamicDataWrapperTest {
     static void testcoverDataWrapper(){
         // Test initialization
         DynamicDataWrapper dwrapper = new DynamicDataWrapper();
-     
     }
 }

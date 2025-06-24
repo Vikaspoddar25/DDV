@@ -27,7 +27,6 @@ public inherited sharing class DynamicDataVisualizerService {
                 System.debug('Error processing record: ' + sob + ' - ' + e.getMessage() + e.getStackTraceString());
             }
         }
-        
         return dynamicRecWrapList;
     }
     
